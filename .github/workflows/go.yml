@@ -24,7 +24,7 @@ jobs:
       run: sudo sh -c "echo /usr/lib/x86_64-linux-gnu/pkgconfig > /etc/ld.so.conf.d/gtk3.conf && ldconfig"
 
     - name: Build
-      run: go build -v -o ./build/md-dns-changer ./cmd/md-dns-changer
+      run: go build -v -o ./build/md-dns-changer ./md-dns-changer
 
     - name: Test
       run: go test -v ./...
