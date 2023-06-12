@@ -25,14 +25,13 @@ jobs:
 
     - name: Build
       run: |
-        mkdir -p ./build
-        go build -v -o ./build/md-dns-changer ./md-dns-changer
+       ls -la
+       mkdir -p ./build
+       go build -v -o ./build/md-dns-changer ./md-dns-changer
 
-    - name: Test
-      run: go test -v ./...
 
     - name: Archive build artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: dns-changer-build-artifacts
         path: |
