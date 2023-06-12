@@ -20,4 +20,4 @@ jobs:
       - name: Set PKG_CONFIG_PATH
         run: sudo sh -c "echo /usr/lib/x86_64-linux-gnu/pkgconfig > /etc/ld.so.conf.d/gtk3.conf && ldconfig"
 
-      - run: go run main.go
+      - run: go build main.go
