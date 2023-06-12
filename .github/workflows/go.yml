@@ -7,7 +7,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -20,14 +19,49 @@ jobs:
 
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev
-      # installs the required package
 
     - name: Set PKG_CONFIG_PATH
       run: sudo sh -c "echo /usr/lib/x86_64-linux-gnu/pkgconfig > /etc/ld.so.conf.d/gtk3.conf && ldconfig"
-      # adds package path to the environment variable
 
     - name: Build
       run: go build -v ./...
 
     - name: Test
       run: go test -v ./...
+
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: dnsChanger
+        path: |
+          ./path/to/output
+          ./path/to/other/output
+
+  create_release:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1.0.0
+      with:
+        tag_name: v1.0.0
+        release_name: Release 1.0.0
+        body: My release notes
+        draft: false
+        prerelease: false
+
+    - name: Attach project artifacts
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./path/to/dnsChanger.zip
+        asset_name: dnsChanger.zip
+        asset_content_type: application/zip
