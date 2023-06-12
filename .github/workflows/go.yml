@@ -28,6 +28,6 @@ jobs:
           # Artifact name
           name: dns-changer
           # A file, directory or wildcard pattern that describes what to upload
-          path: dns-changer
+          path: ./dns-changer
           # The desired behavior if no files are found using the provided path.
 
